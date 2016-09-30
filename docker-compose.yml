@@ -1,0 +1,19 @@
+version: '2'
+services:
+  my-elasticsearch:
+    image: elasticsearch
+    ports:
+     - "9200:9200"
+  my-kibana:
+    image: kibana
+    ports:
+     - "5601:5601"
+    links:
+     - my-elasticsearch:elasticsearch
+  my-logstash:
+    image: logstash
+    command: logstash -f /my-config/my-logstash.conf
+    links:
+     - my-elasticsearch:elasticsearch
+    volumes:
+     - ./logstash/config:/my-config
